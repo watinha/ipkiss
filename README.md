@@ -1,6 +1,6 @@
 TODO
 ====
-[![Build Status](https://api.travis-ci.com/watinha/ipkiss.svg?branch=main)](https://travis-ci.com/github/watinha/ipkiss)
+[![Build Status](https://travis-ci.com/watinha/ipkiss.svg?branch=main)](https://travis-ci.com/watinha/ipkiss)
 
 # Project setup --
 # Deposit --
