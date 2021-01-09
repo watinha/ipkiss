@@ -1,0 +1,27 @@
+{
+  "name": "ipkiss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watinha/ipkiss.git"
+  },
+  "author": "eu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/watinha/ipkiss/issues"
+  },
+  "homepage": "https://github.com/watinha/ipkiss#readme",
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.0.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
