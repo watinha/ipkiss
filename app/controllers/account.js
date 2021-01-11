@@ -4,7 +4,7 @@ class AccountController {
 
     static reset (req, res) {
         AccountTransactionModel.reset();
-        res.status(200).end();
+        res.status(200).end('OK');
     }
 
     static handle_event (req, res) {

@@ -196,3 +196,9 @@ it('should not result in API timeout', async () => {
 
     expect(response.text).toEqual(expected);
 });
+
+it('should return OK after reset', async () => {
+    let response = await request(app).post('/reset')
+                                     .expect(200);
+    expect(response.text).toBe('OK');
+});
