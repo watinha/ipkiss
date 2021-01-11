@@ -5,23 +5,23 @@ class AccountTransactionModel {
     static data = {};
     static reset () { accountData = {}; }
 
-    constructor (destination) {
-        this.destination = destination;
+    constructor (account_id) {
+        this.account_id = account_id;
     }
 
 
     deposit (amount) {
-        if (accountData[this.destination])
-            accountData[this.destination] += amount;
+        if (accountData[this.account_id])
+            accountData[this.account_id] += amount;
         else
-            accountData[this.destination] = amount;
+            accountData[this.account_id] = amount;
         return this;
     }
 
     balance () {
         return {
-            "id": this.destination,
-            "balance": accountData[this.destination]
+            "id": this.account_id,
+            "balance": accountData[this.account_id]
         };
     }
 
