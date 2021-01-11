@@ -9,7 +9,7 @@ class AccountController {
 
     static handle_event (req, res) {
         let { type, origin, destination, amount } = req.body,
-            transaction, result;
+            transaction, transaction2, result, result2;
 
         switch (type) {
             case 'deposit':
@@ -24,6 +24,16 @@ class AccountController {
                     res.status(404).end('0');
                 else
                     res.status(201).json({"origin": result});
+                break;
+            case 'transfer':
+                transaction = new AccountTransactionModel(origin);
+                transaction2 = new AccountTransactionModel(destination);
+                result = transaction.transfer(destination, amount).balance();
+                result2 = transaction2.balance();
+                if (result === null)
+                    res.status(404).end('0');
+                else
+                    res.status(201).json({"origin": result, "destination": result2});
                 break;
         }
 

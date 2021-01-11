@@ -126,3 +126,52 @@ describe('withdraw', () => {
     });
 
 });
+
+describe('transfer', () => {
+
+    beforeEach(async () => {
+        await request(app).post('/event')
+                          .send({"type":"deposit", "destination":"300", "amount": 0})
+                          .expect(201);
+        await request(app).post('/event')
+                          .send({"type":"deposit", "destination":"100", "amount": 15})
+                          .expect(201);
+    });
+
+    it('should transfer from existing accounts', async () => {
+        let params = {"type":"transfer", "origin":"100", "amount":15, "destination":"300"},
+            expected = {
+                "origin": {"id":"100", "balance":0},
+                "destination": {"id":"300", "balance":15}
+            },
+            response = await request(app).post('/event')
+                                         .send(params)
+                                         .expect(201);
+
+        expect(response.body).toEqual(expected);
+    });
+
+    it('should transfer differently from existing accounts', async () => {
+        let params = {"type":"transfer", "origin":"300", "amount": 100, "destination":"100"},
+            expected = {
+                "origin": {"id":"300", "balance": -100},
+                "destination": {"id":"100", "balance": 115}
+            },
+            response = await request(app).post('/event')
+                                         .send(params)
+                                         .expect(201);
+
+        expect(response.body).toEqual(expected);
+    });
+
+    it('should not transfer if origin does not exist', async () => {
+        let params = {"type":"transfer", "origin":"200", "amount": 100, "destination":"300"},
+            expected = '0',
+            response = await request(app).post('/event')
+                                         .send(params)
+                                         .expect(404);
+
+        expect(response.text).toEqual(expected);
+    });
+
+});
