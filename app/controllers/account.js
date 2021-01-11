@@ -8,11 +8,22 @@ class AccountController {
     }
 
     static handle_event (req, res) {
-        let { destination, amount } = req.body,
-            transaction = new AccountTransactionModel(destination),
-            balance = transaction.deposit(amount).balance();
+        let { type, origin, destination, amount } = req.body,
+            transaction, result;
 
-        res.status(201).json({"destination": balance});
+        if (type === 'withdraw') {
+            transaction = new AccountTransactionModel(origin);
+            result = transaction.withdraw(amount).balance();
+            if (result['balance'] === undefined)
+                res.status(404).end('0');
+            else
+                res.status(201).json({"origin": result});
+        } else {
+            transaction = new AccountTransactionModel(destination);
+            result = transaction.deposit(amount).balance();
+            res.status(201).json({"destination": result});
+        }
+
     }
 
     static balance (req, res) {

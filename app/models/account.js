@@ -18,13 +18,18 @@ class AccountTransactionModel {
         return this;
     }
 
+    withdraw (amount) {
+        if (accountData[this.account_id])
+            accountData[this.account_id] -= amount;
+        return this;
+    }
+
     balance () {
         return {
             "id": this.account_id,
             "balance": accountData[this.account_id]
         };
     }
-
 
 }
 

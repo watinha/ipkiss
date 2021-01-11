@@ -87,4 +87,42 @@ describe('balance', () => {
                                       .expect(200);
         expect(response1.text).toBe('0');
     });
+
+});
+
+describe('withdraw', () => {
+
+    beforeEach(async () => {
+        await request(app).post('/event')
+                          .send({"type":"deposit", "destination":"300", "amount": 300})
+                          .expect(201);
+        await request(app).post('/event')
+                          .send({"type":"deposit", "destination":"100", "amount": 20})
+                          .expect(201);
+    });
+
+    it('should subtract from balance of existing account', async () => {
+        let response = await request(app).post('/event')
+                                         .send({"type":"withdraw", "origin":"100", "amount": 5})
+                                         .expect(201);
+
+        expect(response.body).toEqual({"origin": {"id":"100", "balance": 15}});
+    });
+
+    it('should subtract from balance from different account', async () => {
+        let response = await request(app).post('/event')
+                                         .send({"type":"withdraw", "origin":"300", "amount": 115})
+                                         .expect(201);
+
+        expect(response.body).toEqual({"origin": {"id":"300", "balance": 185}});
+    });
+
+    it('should return 404 if queries a non-existant account', async () => {
+        let response = await request(app).post('/event')
+                                         .send({"type":"withdraw", "origin":"200", "amount": 2})
+                                         .expect(404);
+
+        expect(response.text).toEqual('0');
+    });
+
 });
