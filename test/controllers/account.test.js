@@ -185,6 +185,18 @@ describe('transfer', () => {
         expect(response.text).toEqual(expected);
     });
 
+    it('should generate new account for non-existant destination', async () => {
+        let params = {"type":"transfer", "origin":"100", "amount":15, "destination":"not_there"},
+            expected = {
+                "origin": {"id":"100", "balance":0},
+                "destination": {"id":"not_there", "balance":15}
+            },
+            response = await request(app).post('/event')
+                                         .send(params)
+                                         .expect(201);
+
+        expect(response.body).toEqual(expected);
+    });
 });
 
 it('should not result in API timeout', async () => {

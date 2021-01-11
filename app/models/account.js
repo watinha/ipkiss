@@ -27,7 +27,10 @@ class AccountTransactionModel {
     transfer (destination, amount) {
         if (accountData[this.account_id] !== undefined) {
             accountData[this.account_id] -= amount;
-            accountData[destination] += amount;
+            if (accountData[destination] === undefined)
+                accountData[destination] = amount;
+            else
+                accountData[destination] += amount;
         }
         return this;
     }
