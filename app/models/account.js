@@ -25,6 +25,8 @@ class AccountTransactionModel {
     }
 
     balance () {
+        if (accountData[this.account_id] === undefined)
+            return null;
         return {
             "id": this.account_id,
             "balance": accountData[this.account_id]

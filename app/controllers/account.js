@@ -11,17 +11,20 @@ class AccountController {
         let { type, origin, destination, amount } = req.body,
             transaction, result;
 
-        if (type === 'withdraw') {
-            transaction = new AccountTransactionModel(origin);
-            result = transaction.withdraw(amount).balance();
-            if (result['balance'] === undefined)
-                res.status(404).end('0');
-            else
-                res.status(201).json({"origin": result});
-        } else {
-            transaction = new AccountTransactionModel(destination);
-            result = transaction.deposit(amount).balance();
-            res.status(201).json({"destination": result});
+        switch (type) {
+            case 'deposit':
+                transaction = new AccountTransactionModel(destination);
+                result = transaction.deposit(amount).balance();
+                res.status(201).json({"destination": result});
+                break;
+            case 'withdraw':
+                transaction = new AccountTransactionModel(origin);
+                result = transaction.withdraw(amount).balance();
+                if (result === null)
+                    res.status(404).end('0');
+                else
+                    res.status(201).json({"origin": result});
+                break;
         }
 
     }
@@ -31,7 +34,7 @@ class AccountController {
             transaction = new AccountTransactionModel(account_id),
             result = transaction.balance();
 
-        if (result['balance'] === undefined)
+        if (result === null)
             res.status(404).end('0');
         else
             res.status(200).end(`${result['balance']}`);
