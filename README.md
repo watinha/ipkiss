@@ -4,6 +4,6 @@ ToDo
 ====
 1. Project setup OK
 2. Deposit OK
-3. Transfer --
-4. Withdraw --
-5. Balance --
+3. Transfer OK
+4. Withdraw OK
+5. Balance OK
