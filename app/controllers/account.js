@@ -35,6 +35,9 @@ class AccountController {
                 else
                     res.status(201).json({"origin": result, "destination": result2});
                 break;
+            default:
+                res.status(404).end('0');
+                break;
         }
 
     }

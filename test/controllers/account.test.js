@@ -186,3 +186,13 @@ describe('transfer', () => {
     });
 
 });
+
+it('should not result in API timeout', async () => {
+    let params = {"type":"NONEXISTANTTYPE"},
+        expected = '0',
+        response = await request(app).post('/event')
+                                     .send(params)
+                                     .expect(404);
+
+    expect(response.text).toEqual(expected);
+});
