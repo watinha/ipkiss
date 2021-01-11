@@ -19,7 +19,7 @@ class AccountTransactionModel {
     }
 
     withdraw (amount) {
-        if (accountData[this.account_id])
+        if (accountData[this.account_id] !== undefined)
             accountData[this.account_id] -= amount;
         return this;
     }

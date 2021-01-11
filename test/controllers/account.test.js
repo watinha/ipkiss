@@ -99,6 +99,9 @@ describe('withdraw', () => {
         await request(app).post('/event')
                           .send({"type":"deposit", "destination":"100", "amount": 20})
                           .expect(201);
+        await request(app).post('/event')
+                          .send({"type":"deposit", "destination":"999", "amount": 0})
+                          .expect(201);
     });
 
     it('should subtract from balance of existing account', async () => {
@@ -123,6 +126,14 @@ describe('withdraw', () => {
                                          .expect(404);
 
         expect(response.text).toEqual('0');
+    });
+
+    it('should return 201 for existing account with 0 balance', async () => {
+        let response = await request(app).post('/event')
+                                         .send({"type":"withdraw", "origin":"999", "amount": 10})
+                                         .expect(201);
+
+        expect(response.body).toEqual({"origin": {"id":"999", "balance": -10}});
     });
 
 });
